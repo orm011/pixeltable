@@ -809,6 +809,17 @@ files = [
 tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipython", "littleutils", "pytest", "rich"]
 
 [[package]]
+name = "fasteners"
+version = "0.19"
+description = "A python package that provides useful locks"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "fasteners-0.19-py3-none-any.whl", hash = "sha256:758819cb5d94cdedf4e836988b74de396ceacb8e2794d21f82d131fd9ee77237"},
+    {file = "fasteners-0.19.tar.gz", hash = "sha256:b4f37c3ac52d8a445af3a66bce57b33b5e90b97c696b7b984f530cf8f0ded09c"},
+]
+
+[[package]]
 name = "fastjsonschema"
 version = "2.19.1"
 description = "Fastest Python implementation of JSON schema"
@@ -2493,11 +2504,11 @@ files = [
 [package.dependencies]
 numpy = [
     {version = ">=1.21.0", markers = "python_version <= \"3.9\" and platform_system == \"Darwin\" and platform_machine == \"arm64\" and python_version >= \"3.8\""},
-    {version = ">=1.19.3", markers = "platform_system == \"Linux\" and platform_machine == \"aarch64\" and python_version >= \"3.8\" and python_version < \"3.10\" or python_version > \"3.9\" and python_version < \"3.10\" or python_version >= \"3.9\" and platform_system != \"Darwin\" and python_version < \"3.10\" or python_version >= \"3.9\" and platform_machine != \"arm64\" and python_version < \"3.10\""},
-    {version = ">=1.17.3", markers = "(platform_system != \"Darwin\" and platform_system != \"Linux\") and python_version >= \"3.8\" and python_version < \"3.9\" or platform_system != \"Darwin\" and python_version >= \"3.8\" and python_version < \"3.9\" and platform_machine != \"aarch64\" or platform_machine != \"arm64\" and python_version >= \"3.8\" and python_version < \"3.9\" and platform_system != \"Linux\" or (platform_machine != \"arm64\" and platform_machine != \"aarch64\") and python_version >= \"3.8\" and python_version < \"3.9\""},
     {version = ">=1.23.5", markers = "python_version >= \"3.11\" and python_version < \"3.12\""},
     {version = ">=1.21.4", markers = "python_version >= \"3.10\" and platform_system == \"Darwin\" and python_version < \"3.11\""},
     {version = ">=1.21.2", markers = "platform_system != \"Darwin\" and python_version >= \"3.10\" and python_version < \"3.11\""},
+    {version = ">=1.19.3", markers = "platform_system == \"Linux\" and platform_machine == \"aarch64\" and python_version >= \"3.8\" and python_version < \"3.10\" or python_version > \"3.9\" and python_version < \"3.10\" or python_version >= \"3.9\" and platform_system != \"Darwin\" and python_version < \"3.10\" or python_version >= \"3.9\" and platform_machine != \"arm64\" and python_version < \"3.10\""},
+    {version = ">=1.17.3", markers = "(platform_system != \"Darwin\" and platform_system != \"Linux\") and python_version >= \"3.8\" and python_version < \"3.9\" or platform_system != \"Darwin\" and python_version >= \"3.8\" and python_version < \"3.9\" and platform_machine != \"aarch64\" or platform_machine != \"arm64\" and python_version >= \"3.8\" and python_version < \"3.9\" and platform_system != \"Linux\" or (platform_machine != \"arm64\" and platform_machine != \"aarch64\") and python_version >= \"3.8\" and python_version < \"3.9\""},
 ]
 
 [[package]]
@@ -2619,6 +2630,34 @@ files = [
 
 [package.dependencies]
 ptyprocess = ">=0.5"
+
+[[package]]
+name = "pgserver"
+version = "0.0.2"
+description = "Self-contained postgres server for your python applications"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pgserver-0.0.2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:cb8e7b66f46c2ee72c0c5d51d292a630e88322441f6112e6b113697e9c78263e"},
+    {file = "pgserver-0.0.2-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:adc3adef40428ef317c385cdda00677fd4d302f1a5d0c9a5684d6702348c3322"},
+    {file = "pgserver-0.0.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:414f7b1a8d95a0d2e04df2ca22e4aa78b078cf64f209d8d9f8627000860255fa"},
+    {file = "pgserver-0.0.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:c0879fc1d65279b23ccf1a5116668c574c3e2314f4817681c1e1c556c172ecc3"},
+    {file = "pgserver-0.0.2-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ae0167bff413402b684edb7ad971d4c9eb71f11913f686021f32173707b4eba0"},
+    {file = "pgserver-0.0.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:32cb84d2b3f5795a307b763f7c756ce25fa0a8b5c27e05b043d55e0add93ce7a"},
+    {file = "pgserver-0.0.2-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:0458786770208d949c81003f5bbd5b3956c98bef6ea55b1e429d76b3f178c188"},
+    {file = "pgserver-0.0.2-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:0296222bdc296579a2844bc101e90d805794ba44797b727983c7a26e737d5260"},
+    {file = "pgserver-0.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:652b922daf1e9fbf74d2d69341cbe345ecd4a0402e100f222ff1d56c3a033f97"},
+    {file = "pgserver-0.0.2-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:5b385b714da023542b222963b16267f21a6c2e1f999526edf2d33ecf2686752e"},
+    {file = "pgserver-0.0.2-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:0b5a7029dc15d208166f3b1acd506e5e6431dfa513032f06a208f99cd5d909fa"},
+    {file = "pgserver-0.0.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:06d2996f0f73cb6aca5167f897c8a0dc5b8d487f17cb2589c385faa76c7e00fb"},
+    {file = "pgserver-0.0.2-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:c4de9c2d8b8a8a0d427406faea1301b150fc18b66ee64d17cd3c1f3624abb7d3"},
+    {file = "pgserver-0.0.2-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:a0aab80ebeee04541c7c45d12cfe76c67dc77cd3b384ea7e7cefcd703a71eb14"},
+    {file = "pgserver-0.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1f8ab40096be26e3824c06460038a7cd69c9884337dac720bd98fcf040445a29"},
+]
+
+[package.dependencies]
+fasteners = ">=0.19"
+platformdirs = ">=4.0.0"
 
 [[package]]
 name = "pgvector"
@@ -4280,4 +4319,4 @@ torch = ["pyarrow", "torch", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "fbe299573711892ca8c9eb30c64a3160101dded1647e475ec3beaf5d697bd3c1"
+content-hash = "f9a27124bc8f3bb9bfe6d91d9bda406c165044c497d7488529eee5a72f60ee5a"
