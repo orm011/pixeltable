@@ -62,7 +62,6 @@ def extract_audio(
 
         return output_filename
 
-
 @func.udf(return_type=ts.JsonType(nullable=False), param_types=[ts.VideoType(nullable=False)])
 def get_metadata(video: str) -> dict:
     """Gets various metadata associated with a video file.
@@ -75,26 +74,62 @@ def get_metadata(video: str) -> dict:
     """
     with av.open(video) as container:
         assert isinstance(container, av.container.InputContainer)
-        video_streams_info = [
-            {
-                'duration': stream.duration,
-                'frames': stream.frames,
-                'language': stream.language,
-                'average_rate': float(stream.average_rate) if stream.average_rate is not None else None,
-                'base_rate': float(stream.base_rate) if stream.base_rate is not None else None,
-                'guessed_rate': float(stream.guessed_rate) if stream.guessed_rate is not None else None,
-                'pix_fmt': getattr(stream.codec_context, 'pix_fmt', None),
-                'width': stream.width,
-                'height': stream.height,
-            }
-            for stream in container.streams
-            if isinstance(stream, av.video.stream.VideoStream)
-        ]
+
+        streams_info = []
+        for stream in container.streams:
+            if stream.type == 'video':
+                codec_context = stream.codec_context
+                streams_info.append({
+                    'type': stream.type,
+                    'duration': stream.duration,
+                    'time_base': str(stream.time_base),
+                    'duration_seconds': float(stream.duration * stream.time_base),
+                    'frames': stream.frames,
+                    'metadata': stream.metadata,
+                    'average_rate': float(stream.average_rate) if stream.average_rate is not None else None,
+                    'base_rate': float(stream.base_rate) if stream.base_rate is not None else None,
+                    'guessed_rate': float(stream.guessed_rate) if stream.guessed_rate is not None else None,
+                    'width': stream.width,
+                    'height': stream.height,
+                    'codec_context': {
+                        'name': codec_context.name,
+                        # https://en.wikipedia.org/wiki/FourCC  codec tag is not always a printable string
+                        # (it can eg be \x00\x00\x00\x00 when not set, eg for some of our own extracted audio files)
+                        'codec_tag': codec_context.codec_tag.encode('unicode-escape').decode('utf-8'),
+                        'profile': codec_context.profile,
+                        'pix_fmt': getattr(stream.codec_context, 'pix_fmt', None),
+                }
+
+                })
+            elif stream.type == 'audio':
+                codec_context = stream.codec_context
+                streams_info.append({
+                    'type': stream.type,
+                    'duration': stream.duration,
+                    'time_base': str(stream.time_base),
+                    'duration_seconds': float(stream.duration * stream.time_base),
+                    'frames': stream.frames,
+                    'metadata': stream.metadata,
+                    'codec_context': {
+                        'name': codec_context.name,
+                        # https://en.wikipedia.org/wiki/FourCC  codec tag is not always a printable string
+                        # sometimes it may even hold null characters, which will trip up postgres.
+                        # while we can remove these elsewhere, its better to preserve the values
+                        # (it can eg be \x00\x00\x00\x00 when not set, eg for some of our own extracted audio files)
+                        'codec_tag': codec_context.codec_tag.encode('unicode-escape').decode('utf-8'),
+                        'profile': codec_context.profile,
+                        'channels': int(codec_context.channels) if codec_context.channels is not None else None,
+                }
+                })
+            else:
+                streams_info.append({
+                    'type': stream.type,
+                })
         result = {
             'bit_exact': container.bit_exact,
             'bit_rate': container.bit_rate,
             'size': container.size,
             'metadata': container.metadata,
-            'streams': video_streams_info,  # TODO: Audio streams?
+            'streams': streams_info
         }
     return result
