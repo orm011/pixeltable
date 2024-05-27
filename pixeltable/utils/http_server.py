@@ -45,6 +45,13 @@ class AbsolutePathHandler(http.server.SimpleHTTPRequestHandler):
         message = format % args
         _logger.info(message.translate(self._control_char_table))
 
+    def end_headers(self):
+        """Add CORS headers so jupyter notebook can access the server with different origin"""
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        super().end_headers()
+
 
 class LoggingHTTPServer(http.server.ThreadingHTTPServer):
     """Avoids polluting stdout and stderr"""

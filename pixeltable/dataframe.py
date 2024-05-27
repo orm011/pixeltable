@@ -172,11 +172,72 @@ class DataFrameResultSet:
         """
 
     def _format_audio(self, file_path: str) -> str:
+        import random
+        max_width = 320
+        container_id = str(random.randint(0, 1000000))
         return f"""
-        <div class="pxt_audio">
-            <audio controls>
-                {_create_source_tag(file_path)}
-            </audio>
+        <div class="pxt_audio" style="width:{max_width}px;">
+            <div class="waveform" id="waveform{container_id}">
+                <div class="time" id="time{container_id}">0:00</div>
+                <div class="duration" id="duration{container_id}">0:00</div>
+            </div>
+            <script type="module" data-type="module">
+                import WaveSurfer from 'https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.esm.js'
+                const wavesurfer = WaveSurfer.create({{
+                    container: "#waveform{container_id}",
+                    waveColor: 'rgb(200, 200, 200)',
+                    progressColor: 'rgb(100, 100, 100)',
+                    url: '{get_file_uri(Env.get().http_address, file_path)}',
+                    // Set a bar width
+                    barWidth: 2,
+                    // Optionally, specify the spacing between bars
+                    barGap: 1,
+                    // And the bar radius
+                    barRadius: 2,
+                }})
+
+                // Play/pause on click
+                wavesurfer.on('interaction', () => {{
+                    wavesurfer.playPause()
+                }})
+
+                // Format time
+                const formatTime = (seconds) => {{
+                    const minutes = Math.floor(seconds / 60)
+                    const secondsRemainder = Math.round(seconds) % 60
+                    const paddedSeconds = `0${{secondsRemainder}}`.slice(-2)
+                    return `${{minutes}}:${{paddedSeconds}}`
+                }}
+
+                const timeEl = document.querySelector('#time{container_id}')
+                const durationEl = document.querySelector('#duration{container_id}')
+                wavesurfer.on('decode', (duration) => (durationEl.textContent = formatTime(duration)))
+                wavesurfer.on('timeupdate', (currentTime) => (timeEl.textContent = formatTime(currentTime)))
+            </script>
+            <style>
+                .waveform {{
+                cursor: pointer;
+                position: relative;
+                }}
+                .time,
+                .duration {{
+                position: absolute;
+                z-index: 11;
+                top: 50%;
+                margin-top: -1px;
+                transform: translateY(-50%);
+                font-size: 11px;
+                background: rgba(0, 0, 0, 0.75);
+                padding: 2px;
+                color: #ddd;
+                }}
+                .time {{
+                left: 0;
+                }}
+                .duration {{
+                right: 0;
+                }}
+        </style>
         </div>
         """
 
