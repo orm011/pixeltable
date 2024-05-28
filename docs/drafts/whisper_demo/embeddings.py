@@ -65,7 +65,7 @@ class AudioSplitter(ComponentIterator):
         return {'text': pxt.StringType()}, []
 
 
-class SentenceSplitter(ComponentIterator):
+class TextSplitter(ComponentIterator):
     def __init__(self, text: str):
         self._text = text
         self.spacy_nlp = spacy.load('en_core_web_sm')
